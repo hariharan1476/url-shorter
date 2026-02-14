@@ -1,11 +1,11 @@
 from flask import Flask, request, redirect, render_template
-import string
 import random
+import string
 
-# IMPORTANT: template folder path
+# Create Flask app (IMPORTANT: name must be "app")
 app = Flask(__name__, template_folder="../templates")
 
-# In-memory storage (Vercel compatible)
+# Memory storage (Vercel compatible)
 url_map = {}
 
 def generate_short():
@@ -18,9 +18,7 @@ def home():
     if request.method == "POST":
         long_url = request.form["long_url"]
         short_code = generate_short()
-
         url_map[short_code] = long_url
-
         short_url = request.host_url + short_code
 
     return render_template("index.html", short_url=short_url)
@@ -35,6 +33,5 @@ def redirect_url(short_code):
     return "URL not found"
 
 
-# REQUIRED FOR VERCEL
-def handler(request):
-    return app
+# THIS LINE IS REQUIRED FOR VERCEL
+# Do NOT use handler()
